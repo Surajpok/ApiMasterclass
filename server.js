@@ -1,12 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const logger = require('./middleware/logger');
 
 const app = express();
 
-const logger = (req,res,next) =>{
-    console.log(``);
-    next();
-}
+
+
 app.use(logger);
 
 // Routes Files
