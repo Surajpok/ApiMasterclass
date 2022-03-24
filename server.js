@@ -12,13 +12,13 @@ dotenv.config({path:'./config/config.env'});
 // connect to database
 connectDB();
 
-// const logger = require('./middleware/logger');
+
 // Dev Logging Middleware
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
 
-// app.use(logger);
+
 
 // Routes Files
 const bootcamps = require('./routes/bootcamps');
@@ -29,6 +29,15 @@ app.use('/api/v1/bootcamps',bootcamps);
 
 const PORT = process.env.PORT || 5000;
 const MODE = process.env.NODE_ENV;
-app.listen(PORT,
+
+const server = app.listen(PORT,
     console.log(`Server reaning in ${MODE} on ${PORT}`)
 );
+
+// handle unhandeled rejections
+
+process.on('unhandeledRejeton', (err,promise) => {
+    console.log(`Error: ${err.message}`);
+// close server & Exit Process
+server.close(()=>process.exit(1));
+});
